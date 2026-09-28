@@ -37,7 +37,24 @@ Tener instalado lo siguiente:
 
 **2.2. Despliegue**
 
-        1. Clonar este repositorio:
+1. Clonar este repositorio:
 
-    `` $ git clone
+```bash
+$ git clone https://github.com/mariarv-4/sad2026-27.git
+```
 
+2. Levantar con vagrant
+
+  ```bash
+$ cd SAD-PROYECTO-2026-26-solucion
+$ vagrant up
+```
+3. Una vez levantado, comprobamos el estado de las máquinas con:
+```bash
+$ vagrant status
+ ```
+4. Y accedemos a las máquinas con `vagrant ssh máquina`. Ej para acceder a www:
+
+```bash 
+$ vagrant ssh www 
+```
