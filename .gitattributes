@@ -1,0 +1,6 @@
+# Normalizar todos los archivos de texto a LF en el repositorio
+* text=auto
+
+# Forzar LF en los scripts de shell (crítico para que funcionen en Linux)
+*.sh text eol=lf
+*.bash text eol=lf
