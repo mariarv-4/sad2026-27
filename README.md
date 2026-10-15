@@ -58,3 +58,4 @@ $ vagrant status
 ```bash 
 $ vagrant ssh www 
 ```
+![hola](https://cdn.sanity.io/images/5vm5yn1d/pro/5cb1f9400891d9da5a4926d7814bd1b89127ecba-1300x867.jpg?fm=webp&q=80)
