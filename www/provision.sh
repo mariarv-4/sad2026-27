@@ -81,4 +81,22 @@ rc-update add php-fpm81 default
 rc-service php-fpm81 restart
 rc-service nginx restart
 
+echo "=> Blindando acceso SSH en WWW..."
+apk add sudo openssh
+adduser -D admin_maria
+passwd -u admin_maria
+adduser admin_maria wheel
+echo "%wheel ALL (ALL) ALL" > /etc/sudoers.d/wheel
+
+mkdir -p /home/admin_maria/.ssh
+cat /tmp/id_ed25519.pub >> /home/admin_maria/.ssh/authorized_keys
+chown -R admin_maria:admin_maria /home/admin_maria/.ssh
+chmod 700 /home/admin_maria/.ssh
+chmod 600 /home/admin_maria/.ssh/authorized_keys
+
+# Hardening SSH
+sed -i 's/^.*PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config
+sed -i 's/^.*PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
+rc-service sshd restart
+
 echo "------ FIN ------"

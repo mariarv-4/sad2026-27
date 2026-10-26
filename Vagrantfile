@@ -3,7 +3,7 @@ iniciales = "MRV"
 
 Vagrant.configure("2") do |config|
 
-# Definición del equipo gw
+  # Definición del equipo gw
   config.vm.define "gw" do |gw|
     gw.vm.box = "bento/ubuntu-24.04"
     gw.vm.hostname = "gw-#{iniciales}"
@@ -25,7 +25,6 @@ Vagrant.configure("2") do |config|
         vb.customize ["modifyvm", :id, "--groups", "/sad"]
     end
   end        
-  
   
   # IDP en la LAN
   config.vm.define "idp" do |idp|
@@ -52,6 +51,8 @@ Vagrant.configure("2") do |config|
     adminpc.vm.box = "generic/alpine319"
     adminpc.vm.hostname = "adminpc-#{iniciales}"
     adminpc.vm.network "private_network", ip: "172.2.#{N}.10", netmask: "255.255.255.0", virtualbox__intnet: "red_lan"
+    adminpc.vm.provision "file", source: "adminpc/claves-ssh/clave_admin_privada", destination: "/tmp/id_ed25519"
+    adminpc.vm.provision "file", source: "adminpc/claves-ssh/clave_admin.pub", destination: "/tmp/id_ed25519.pub"
     adminpc.vm.provision "shell", path: "adminpc/provision.sh"
     # eliminar default gw en eth0 – red NAT creada por defecto
     adminpc.vm.provision "shell",
@@ -67,9 +68,9 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  # Empleado en la LAN
+  # Empleado en la LAN (Configurado con Ubuntu 24.04 para el Ejercicio 4 de PAM)
   config.vm.define "empleado" do |empleado|
-    empleado.vm.box = "generic/alpine319"
+    empleado.vm.box = "bento/ubuntu-24.04"
     empleado.vm.hostname = "empleado-#{iniciales}"
     empleado.vm.network "private_network", ip: "172.2.#{N}.100", netmask: "255.255.255.0", virtualbox__intnet: "red_lan"
     empleado.vm.provision "shell", path: "empleado/provision.sh"
@@ -80,7 +81,7 @@ Vagrant.configure("2") do |config|
     empleado.vm.provider "virtualbox" do |vb|
         vb.name = "empleado-lan"
         vb.gui = false
-        vb.memory = "128"
+        vb.memory = "512"
         vb.cpus = 1
         vb.linked_clone = true
         vb.customize ["modifyvm", :id, "--groups", "/sad"]
@@ -112,6 +113,7 @@ Vagrant.configure("2") do |config|
     www.vm.box = "generic/alpine319"
     www.vm.hostname = "www-#{iniciales}"
     www.vm.network "private_network", ip: "172.1.#{N}.3", netmask: "255.255.255.0", virtualbox__intnet: "red_dmz" 
+    www.vm.provision "file", source: "adminpc/claves-ssh/clave_admin.pub", destination: "/tmp/id_ed25519.pub"
     www.vm.provision "shell", path: "www/provision.sh"
     # eliminar default gw en eth0 – red NAT creada por defecto
     www.vm.provision "shell",
@@ -126,5 +128,5 @@ Vagrant.configure("2") do |config|
         vb.customize ["modifyvm", :id, "--groups", "/sad"]
     end
   end
-end
 
+end

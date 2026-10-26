@@ -7,6 +7,4 @@ echo " Aprovisionando cliente "
 echo "########################################"
 echo "-----------------"
 echo "Actualizando repositorios"
-apk update
-apk add curl nmap tcpdump wget bash iputils
 echo "------ FIN ------"
