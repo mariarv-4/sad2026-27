@@ -122,7 +122,7 @@ Vagrant.configure("2") do |config|
     www.vm.provider "virtualbox" do |vb|
         vb.name = "www-dmz"
         vb.gui = false
-        vb.memory = "512"
+        vb.memory = "400"
         vb.cpus = 1
         vb.linked_clone = true
         vb.customize ["modifyvm", :id, "--groups", "/sad"]

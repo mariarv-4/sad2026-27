@@ -86,7 +86,7 @@ apk add sudo openssh
 adduser -D admin_maria
 passwd -u admin_maria
 adduser admin_maria wheel
-echo "%wheel ALL (ALL) ALL" > /etc/sudoers.d/wheel
+echo "%wheel ALL=(ALL) ALL" > /etc/sudoers.d/wheel
 
 mkdir -p /home/admin_maria/.ssh
 cat /tmp/id_ed25519.pub >> /home/admin_maria/.ssh/authorized_keys
