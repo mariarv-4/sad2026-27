@@ -109,24 +109,17 @@ Vagrant.configure("2") do |config|
   end
 
   # WWW en DMZ
-  config.vm.define "www" do |www|
-    www.vm.box = "generic/alpine319"
+ config.vm.define "www" do |www|
+    www.vm.box = "bento/debian-13"
     www.vm.hostname = "www-#{iniciales}"
-    www.vm.network "private_network", ip: "172.1.#{N}.3", netmask: "255.255.255.0", virtualbox__intnet: "red_dmz" 
-    www.vm.provision "file", source: "adminpc/claves-ssh/clave_admin.pub", destination: "/tmp/id_ed25519.pub"
-    www.vm.provision "shell", path: "www/provision.sh"
-    # eliminar default gw en eth0 – red NAT creada por defecto
-    www.vm.provision "shell",
-        run: "always",
-        inline:  "ip route del default && ip route add default via 172.1.#{N}.1"     
+    www.vm.network "private_network", ip: "172.1.#{N}.3", netmask: "255.255.255.0"
+    
     www.vm.provider "virtualbox" do |vb|
-        vb.name = "www-dmz"
-        vb.gui = false
-        vb.memory = "400"
-        vb.cpus = 1
-        vb.linked_clone = true
-        vb.customize ["modifyvm", :id, "--groups", "/sad"]
+      vb.memory = "400"
     end
+
+    www.vm.provision "shell", path: "www/provision.sh"
+    www.vm.provision "shell", run: "always", inline: "ip route replace default via 172.1.#{N}.1"
   end
 
 end
