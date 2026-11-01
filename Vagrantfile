@@ -46,42 +46,38 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  # Adminpc en la LAN
+  # Adminpc en la LAN (Actualizado a Debian 13 para la Práctica 3)
   config.vm.define "adminpc" do |adminpc|
-    adminpc.vm.box = "generic/alpine319"
+    adminpc.vm.box = "bento/debian-13"
     adminpc.vm.hostname = "adminpc-#{iniciales}"
     adminpc.vm.network "private_network", ip: "172.2.#{N}.10", netmask: "255.255.255.0", virtualbox__intnet: "red_lan"
     adminpc.vm.provision "file", source: "adminpc/claves-ssh/clave_admin_privada", destination: "/tmp/id_ed25519"
     adminpc.vm.provision "file", source: "adminpc/claves-ssh/clave_admin.pub", destination: "/tmp/id_ed25519.pub"
     adminpc.vm.provision "shell", path: "adminpc/provision.sh"
-    # eliminar default gw en eth0 – red NAT creada por defecto
-    adminpc.vm.provision "shell",
-        run: "always",
-        inline:  "ip route del default && ip route add default via 172.2.#{N}.1"   
+    # Reemplazar la ruta por defecto
+    adminpc.vm.provision "shell", run: "always", inline: "ip route replace default via 172.2.#{N}.1"   
     adminpc.vm.provider "virtualbox" do |vb|
         vb.name = "adminpc-lan"
         vb.gui = false
-        vb.memory = "128"
+        vb.memory = "400"
         vb.cpus = 1
         vb.linked_clone = true
         vb.customize ["modifyvm", :id, "--groups", "/sad"]
     end
   end
 
-  # Empleado en la LAN (Configurado con Ubuntu 24.04 para el Ejercicio 4 de PAM)
+  # Empleado en la LAN (Actualizado a Debian 13 para la Práctica 3)
   config.vm.define "empleado" do |empleado|
-    empleado.vm.box = "bento/ubuntu-24.04"
+    empleado.vm.box = "bento/debian-13"
     empleado.vm.hostname = "empleado-#{iniciales}"
     empleado.vm.network "private_network", ip: "172.2.#{N}.100", netmask: "255.255.255.0", virtualbox__intnet: "red_lan"
     empleado.vm.provision "shell", path: "empleado/provision.sh"
-    # eliminar default gw en eth0 – red NAT creada por defecto
-    empleado.vm.provision "shell",
-        run: "always",
-        inline:  "ip route del default && ip route add default via 172.2.#{N}.1"   
+    # Reemplazar la ruta por defecto
+    empleado.vm.provision "shell", run: "always", inline: "ip route replace default via 172.2.#{N}.1"   
     empleado.vm.provider "virtualbox" do |vb|
         vb.name = "empleado-lan"
         vb.gui = false
-        vb.memory = "512"
+        vb.memory = "400"
         vb.cpus = 1
         vb.linked_clone = true
         vb.customize ["modifyvm", :id, "--groups", "/sad"]
@@ -108,8 +104,8 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  # WWW en DMZ
- config.vm.define "www" do |www|
+  # WWW en DMZ (Actualizado a Debian 13 para la Práctica 3)
+  config.vm.define "www" do |www|
     www.vm.box = "bento/debian-13"
     www.vm.hostname = "www-#{iniciales}"
     www.vm.network "private_network", ip: "172.1.#{N}.3", netmask: "255.255.255.0"
@@ -121,5 +117,4 @@ Vagrant.configure("2") do |config|
     www.vm.provision "shell", path: "www/provision.sh"
     www.vm.provision "shell", run: "always", inline: "ip route replace default via 172.1.#{N}.1"
   end
-
 end
