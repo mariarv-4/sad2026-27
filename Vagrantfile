@@ -108,12 +108,15 @@ Vagrant.configure("2") do |config|
   config.vm.define "www" do |www|
     www.vm.box = "bento/debian-13"
     www.vm.hostname = "www-#{iniciales}"
-    www.vm.network "private_network", ip: "172.1.#{N}.3", netmask: "255.255.255.0"
+    #www.vm.network "private_network", ip: "172.1.#{N}.3", netmask: "255.255.255.0"
+    www.vm.network "private_network", ip: "172.1.#{N}.3", netmask: "255.255.255.0", virtualbox__intnet: "red_dmz"
+    
     
     www.vm.provider "virtualbox" do |vb|
       vb.memory = "400"
     end
-
+    www.vm.provision "file", source: "adminpc/claves-ssh/clave_admin.pub", destination: "/tmp/id_ed25519.pub"
+    
     www.vm.provision "shell", path: "www/provision.sh"
     www.vm.provision "shell", run: "always", inline: "ip route replace default via 172.1.#{N}.1"
   end
