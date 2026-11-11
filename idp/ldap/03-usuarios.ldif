@@ -12,6 +12,7 @@ gidNumber: 10000
 homeDirectory: /home/maria.rodriguez
 loginShell: /bin/bash
 userPassword: {SSHA}ygOH7JvaCd3HrpU/wEITZbEqEGEFums5
+
 # Empleado
 dn: uid=luis.martin,ou=usuarios,dc=mrv,dc=internal
 objectClass: inetOrgPerson
