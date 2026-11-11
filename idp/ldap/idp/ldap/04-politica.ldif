@@ -1,0 +1,21 @@
+# Política de contraseñas de la empresa
+dn: ou=politicas,dc=mrv,dc=internal
+objectClass: organizationalUnit
+ou: politicas
+
+dn: cn=default,ou=politicas,dc=mrv,dc=internal
+objectClass: organizationalRole
+objectClass: pwdPolicy
+cn: default
+pwdAttribute: userPassword
+pwdMinLength: 15
+pwdCheckQuality: 2
+pwdInHistory: 5
+pwdMaxFailure: 5
+pwdLockout: TRUE
+pwdLockoutDuration: 300
+pwdFailureCountInterval: 300
+pwdMaxAge: 7776000
+pwdExpireWarning: 604800
+pwdMustChange: TRUE
+pwdAllowUserChange: TRUE
