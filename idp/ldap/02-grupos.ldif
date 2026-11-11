@@ -1,0 +1,14 @@
+# Todos los empleados (grupo principal de los usuarios)
+dn: cn=empleados,ou=grupos,dc=mrv,dc=internal
+objectClass: posixGroup
+cn: empleados
+gidNumber: 10000
+memberUid: pablo.esteban
+memberUid: luis.martin
+
+# Administradores de sistemas: entran a los servidores y tienen sudo
+dn: cn=admins,ou=grupos,dc=mrv,dc=internal
+objectClass: posixGroup
+cn: admins
+gidNumber: 10001
+memberUid: pablo.esteban

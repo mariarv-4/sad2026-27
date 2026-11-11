@@ -1,0 +1,31 @@
+# Administrador de sistemas (tú)
+dn: uid=maria.rodriguez,ou=usuarios,dc=mrv,dc=internal
+objectClass: inetOrgPerson
+objectClass: posixAccount
+uid: maria.rodriguez
+cn: Maria Rodriguez
+sn: Rodriguez
+givenName: Maria
+mail: maria.rodriguez@mrv.internal
+uidNumber: 10001
+gidNumber: 10000
+homeDirectory: /home/maria.rodriguez
+loginShell: /bin/bash
+userPassword: {SSHA}ygOH7JvaCd3HrpU/wEITZbEqEGEFums5
+# Empleado
+dn: uid=luis.martin,ou=usuarios,dc=mrv,dc=internal
+objectClass: inetOrgPerson
+objectClass: posixAccount
+uid: luis.martin
+cn: Luis Martín
+sn: Martín
+givenName: Luis
+mail: luis.martin@mrv.internal
+uidNumber: 10002
+gidNumber: 10000
+homeDirectory: /home/luis.martin
+loginShell: /bin/bash
+userPassword:{SSHA}ygOH7JvaCd3HrpU/wEITZbEqEGEFums5
+
+
+

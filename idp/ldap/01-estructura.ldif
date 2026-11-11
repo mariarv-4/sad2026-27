@@ -1,0 +1,6 @@
+dn: ou=usuarios,dc=mrv,dc=internal
+objectClass: organizationalUnit
+ou: usuarios
+dn: ou=grupos,dc=mrv,dc=internal
+objectClass: organizationalUnit
+ou: grupos
