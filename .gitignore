@@ -7,3 +7,8 @@ Thumbs.db
 *.swp
 *~
 .env
+# Secretos y certificados de OpenLDAP
+idp/tls/
+idp/ca/
+*.key
+*.crt
