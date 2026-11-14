@@ -1,0 +1,8 @@
+# Clave pública SSH del administrador (la misma de adminpc/claves-ssh/clave_admin.pub)
+dn: uid=maria.rodriguez,ou=usuarios,dc=mrv,dc=internal
+changetype: modify
+add: objectClass
+objectClass: ldapPublicKey
+-
+add: sshPublicKey
+sshPublicKey: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIIQLv9L1L6iYBfm+6+Wi7TwdVvwBdpfqv9cK+O2f1A2 admin_maria@adminpc
