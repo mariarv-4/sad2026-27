@@ -24,7 +24,7 @@ Vagrant.configure("2") do |config|
     gw.vm.network "private_network", ip: "172.2.#{N}.1", netmask: "255.255.255.0", virtualbox__intnet: "red_lan"
     # eth4: LAN de gestion o Intranet
     gw.vm.network "private_network", ip: "172.3.#{N}.1", netmask: "255.255.255.0", virtualbox__intnet: "red_gestion"
-    gw.vm.provision "shell", path: "gw/provision.sh"   
+    gw.vm.provision "shell", path: "gw/provision.sh", args: [N] 
     gw.vm.provider "virtualbox" do |vb|
         vb.name = "gw"
         vb.gui = false
@@ -144,5 +144,24 @@ Vagrant.configure("2") do |config|
     # Reemplazar la ruta por defecto y reiniciar SSSD de forma segura dentro del bloque
     www.vm.provision "shell", run: "always", inline: "ip route replace default via 172.1.#{N}.1; systemctl try-restart sssd || true"
   end
-
+  # Un equipo cualquiera de Internet (red_wan), para probar el cortafuegos desde fuera
+  config.vm.define "externo" do |externo|
+    externo.vm.box = "bento/debian-13"
+    externo.vm.hostname = "externo-#{iniciales}"
+    externo.vm.network "private_network", ip: "203.0.113.10", netmask:
+    "255.255.255.0", virtualbox__intnet: "red_wan"
+    externo.vm.provision "shell", path: "externo/provision.sh"
+    # Su ruta por defecto es el gw: así podemos intentar llegar a las redes internas
+    externo.vm.provision "shell",
+      run: "always",
+      inline: "ip route replace default via 203.0.113.254"
+    externo.vm.provider "virtualbox" do |vb|
+      vb.name = "externo-wan"
+      vb.gui = false
+      vb.memory = "256"
+      vb.cpus = 1
+      vb.linked_clone = true
+      vb.customize ["modifyvm", :id, "--groups", "/sad"]
+    end
+  end
  end
